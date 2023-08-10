@@ -1,0 +1,16 @@
+---
+- name: Run NNAP Scan
+  hosts: [target_hosts]
+  gather_facts: no
+
+  tasks:
+    - name: Run Nmap NNAP Scan
+      command: nmap -sV -p- {{ inventory_hostname }}
+      register: nmap_output
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display Nmap Scan Results
+      debug:
+        var: nmap_output.stdout_lines
+
